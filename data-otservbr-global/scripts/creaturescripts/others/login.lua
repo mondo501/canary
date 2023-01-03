@@ -20,20 +20,101 @@ end
 
 local playerLogin = CreatureEvent("PlayerLogin")
 
-function playerLogin.onLogin(player)
-	local items = {
-		{3003, 1},
-		{3031, 3}
+local startingItems = {
+	[1] = { -- Sorcerer
+		items = {
+			{3059, 1}, -- spellbook
+			{3074, 1}, -- wand of vortex
+			{7991, 1}, -- magician's robe
+			{7992, 1}, -- mage hat
+			{3362, 1}, -- studded legs
+			{3552, 1}, -- leather boots
+			{3572, 1}  -- scarf
+		},
+		container = {
+			{3003, 1}, -- rope
+			{3457, 1}, -- shovel
+			{268, 1},  -- mana potion
+			{3035, 10} -- platinum coin
+		}
+	},
+	[2] = { -- Druid
+		items = {
+			{3059, 1}, -- spellbook
+			{3066, 1}, -- snakebite rod
+			{7991, 1}, -- magician's robe
+			{7992, 1}, -- mage hat
+			{3362, 1}, -- studded legs
+			{3552, 1}, -- leather boots
+			{3572, 1}  -- scarf
+		},
+		container = {
+			{3003, 1}, -- rope
+			{3457, 1}, -- shovel
+			{268, 1},  -- mana potion
+			{3035, 10} -- platinum coin
+		}
+	},
+	[3] = { -- Paladin
+		items = {
+			{3425, 1}, -- dwarven shield
+			{3277, 1}, -- 5 spears
+			{3571, 1}, -- ranger's cloak
+			{8095, 1}, -- ranger legs
+			{3552, 1}, -- leather boots
+			{3572, 1}, -- scarf
+			{3374, 1}  -- legion helmet
+		},
+		container = {
+			{3003, 1}, -- rope
+			{3457, 1}, -- shovel
+			{266, 1},  -- health potion
+			{3035, 10} -- platinum coin
+		}
+	},
+	[4] = { -- Knight
+		items = {
+			{3425, 1}, -- dwarven shield
+			{7774, 1}, -- jagged sword
+			{3359, 1}, -- brass armor
+			{3354, 1}, -- brass helmet
+			{3372, 1}, -- brass legs
+			{3552, 1}, -- leather boots
+			{3572, 1}  -- scarf
+		},
+		container = {
+			{3003, 1}, -- rope
+			{3457, 1}, -- shovel
+			{266, 1},  -- health potion
+			{3035, 10}, -- platinum coin
+			{7773, 1}, -- steel axe
+			{3327, 1} -- daramanian mace
+		}
 	}
+}
+
+
+function playerLogin.onLogin(player)
+	local vocationItems = startingItems[player:getVocation():getId()]
+	if not vocationItems then
+		return true
+	end
+	
 	if player:getLastLoginSaved() == 0 then
 		player:sendOutfitWindow()
+
+		-- Add equipment
+		for i = 1, #vocationItems.items do
+			player:addItem(vocationItems.items[i][1], vocationItems.items[i][2])
+		end
+		
 		local backpack = player:addItem(2854)
 		if backpack then
-			for i = 1, #items do
-				backpack:addItem(items[i][1], items[i][2])
+			for i = 1, #vocationItems.container do
+				backpack:addItem(vocationItems.container[i][1], vocationItems.container[i][2])
 			end
 		end
-		player:addItem(2920, 1, true, 1, CONST_SLOT_AMMO)
+		
 		db.query('UPDATE `players` SET `istutorial` = 0 where `id`='..player:getGuid())
 		-- Open channels
 		if table.contains({TOWNS_LIST.DAWNPORT, TOWNS_LIST.DAWNPORT_TUTORIAL}, player:getTown():getId())then
