@@ -265,12 +265,15 @@ function flaskPotion.onUse(player, item, fromPosition, target, toPosition, isHot
 
 		player:addAchievementProgress('Potion Addict', 100000)
 		target:say("Aaaah...", MESSAGE_POTION)
-		if fromPosition.x == CONTAINER_POSITION and not container == store_inbox then
-			local container = Container(item:getParent().uid)
-			container:addItem(potion.flask, 1)
-		else
-			player:addItem(potion.flask, 1)
+		if configManager.getBoolean(configKeys.REMOVE_POTION_CHARGES) then
+			if fromPosition.x == CONTAINER_POSITION and not container == store_inbox then
+				local container = Container(item:getParent().uid)
+				container:addItem(potion.flask, 1)
+			else
+				player:addItem(potion.flask, 1)
+			end
 		end
+		
 		player:addCondition(exhaust)
 		player:setStorageValue(38412, player:getStorageValue(38412)+1)
 	end

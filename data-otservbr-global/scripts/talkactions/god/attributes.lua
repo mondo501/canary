@@ -26,7 +26,7 @@ local creatureFunctions = {
 	["droploot"] = { isActive = true, targetFunction = function (creature, target) return creature:setDropLoot(target) end },
 	["skull"] = { isActive = true, targetFunction = function (creature, target) return creature:setSkull(target) end },
 	["direction"] = { isActive = true, targetFunction = function (creature, target) return creature:setDirection(target) end },
-	["maxHealth"] = { isActive = true, targetFunction = function (creature, target) return creature:setMaxHealth(target) end },
+	["maxhealth"] = { isActive = true, targetFunction = function (creature, target) return creature:setMaxHealth(target) end },
 	["say"] = { isActive = true, targetFunction = function (creature, target) creature:say(target, TALKTYPE_SAY) end }
 }
 
@@ -42,10 +42,10 @@ local playerFunctions = {
 	["save"] = { isActive = true, targetFunction = function (player, target) return player:save() end },
 	["type"] = { isActive = true, targetFunction = function (player, target) return player:setAccountType(target) end },
 	["skullTime"] = { isActive = true, targetFunction = function (player, target) return player:setSkullTime(target) end },
-	["maxMana"] = { isActive = true, targetFunction = function (player, target) return player:setMaxMana(target) end },
-	["maxHealth"] = { isActive = true, targetFunction = function (player, target) return player:setMaxHealth(target) end },
+	["maxmana"] = { isActive = true, targetFunction = function (player, target) return player:setMaxMana(target) end },
+	["maxhealth"] = { isActive = true, targetFunction = function (player, target) return player:setMaxHealth(target) end },
 	["addItem"] = { isActive = true, targetFunction = function (player, target) return player:addItem(target, 1) end },
-	["removeItem"] = { isActive = true, targetFunction = function (player, target) return player:removeItem(target, 1) end },
+	["removeitem"] = { isActive = true, targetFunction = function (player, target) return player:removeItem(target, 1) end },
 	["premium"] = { isActive = true, targetFunction = function (player, target) return player:addPremiumDays(target) end }
 }
 
